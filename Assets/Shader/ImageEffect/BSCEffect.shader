@@ -1,4 +1,4 @@
-﻿Shader "ShaderLab_Study/ImageEffect" {
+﻿Shader "ShaderLab_Study/BSCEffect" {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_Brightness("Brightness", Float) = 1
@@ -6,6 +6,9 @@
 		_Contrast("Contrast", Float) = 1
 	}
 	SubShader {
+		ZTest Always
+		Cull Off
+		ZWrite Off
 		Pass {
 			CGPROGRAM
 			#pragma vertex vert_img
@@ -28,7 +31,7 @@
 					fixed3 finalColor = renderTex * _Brightness;
 					//saturation饱和度：首先根据公式计算同等亮度情况下饱和度最低的值：
 					fixed gray = 0.2125 * renderTex.r + 0.7154 * renderTex.g + 0.0721 * renderTex.b;
-					fixed3 grayColor = fixed3(gray, gray, gray);
+					fixed3 grayColor = fixed3(gray, gray, gray);//灰度图
 					//根据Saturation在饱和度最低的图像和原图之间差值
 					finalColor = lerp(grayColor, finalColor, _Saturation);
 					//contrast对比度：首先计算对比度最低的值

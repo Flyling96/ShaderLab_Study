@@ -204,8 +204,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3856d671b3dd66841a505eb767725083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curShader: {fileID: 4800000, guid: d7c1c90340b5fac4ebe9a5aa391c0939, type: 3}
-  grayScaleAmount: 0.64
+  bscEffect:
+    brightness: 1.03
+    saturation: 1.7
+    contrast: 1.7
 --- !u!1 &1666336382
 GameObject:
   m_ObjectHideFlags: 0
