@@ -39,7 +39,7 @@ public class BaseEffect {
 
     public virtual void Update(RenderTexture sourceTex, RenderTexture renderTex)
     {
-        if(renderTex!=null)
+        if(sourceTex != null)
         {
             Graphics.Blit(sourceTex, renderTex, m_Material);
         }
