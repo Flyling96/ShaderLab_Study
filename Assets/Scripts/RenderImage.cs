@@ -10,6 +10,7 @@ public enum EffectEnum
     EdgeDetectionEffect,
     GaussianBlur,
     BloomEffect,
+    GolbalFog,
 }
 
 [ExecuteInEditMode]
@@ -28,10 +29,18 @@ public class RenderImage : MonoBehaviour {
     public EdgeDetectionEffect edgeDetection = new EdgeDetectionEffect();
     public GaussianBlur gaussianBlur = new GaussianBlur();
     public BloomEffect bloomEffect = new BloomEffect();
+    public GolbalFog golbalFog = new GolbalFog();
 
+    public static Camera mainCamera = null;
+
+    private void Awake()
+    {
+        mainCamera = this.GetComponent<Camera>(); 
+    }
 
     void Start()
     {
+
         if (SystemInfo.supportsImageEffects == false)
         {
             enabled = false;
@@ -55,6 +64,10 @@ public class RenderImage : MonoBehaviour {
 
     public void ChangeEffect(EffectEnum effect)
     {
+        if(mainCamera == null)
+        {
+            mainCamera = this.GetComponent<Camera>();
+        }
         switch (effect)
         {
             case EffectEnum.BaseEffect:
@@ -71,6 +84,9 @@ public class RenderImage : MonoBehaviour {
                 break;
             case EffectEnum.BloomEffect:
                 curEffect = bloomEffect;
+                break;
+            case EffectEnum.GolbalFog:
+                curEffect = golbalFog;
                 break;
         }
 
