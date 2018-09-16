@@ -525,7 +525,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 972792413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -23.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -542,7 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3856d671b3dd66841a505eb767725083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curEffectEnum: 4
+  curEffectEnum: 6
   bscEffect:
     brightness: 1.03
     saturation: 1.7
@@ -559,12 +559,19 @@ MonoBehaviour:
     iterations: 3
     blurSpread: 0.6
     downSample: 2
-    brightThreshold: 0.63
+    brightThreshold: 0.15
   golbalFog:
     fogColor: {r: 0, g: 0, b: 0, a: 1}
     fogStart: 6.04
     fogEnd: 16.96
     fogDensity: 0.25
+  edgeDepthNormal:
+    edgeOnly: 1
+    edgeColor: {r: 0, g: 0, b: 0, a: 1}
+    backgroundColor: {r: 1, g: 0.9852941, b: 0.9852941, a: 1}
+    normalSensitivity: 1
+    depthSensitivity: 1
+    sampleDistanceple: 0.5
 --- !u!1 &1666336382
 GameObject:
   m_ObjectHideFlags: 0

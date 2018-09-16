@@ -21,7 +21,7 @@ public class GolbalFog : BaseEffect
 
     public override void Start()
     {
-        RenderImage.mainCamera.depthTextureMode = DepthTextureMode.Depth;
+        RenderImage.mainCamera.depthTextureMode |= DepthTextureMode.Depth;
         Init("ShaderLab_Study/GolbalFog");
     }
 

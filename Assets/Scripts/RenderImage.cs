@@ -11,6 +11,8 @@ public enum EffectEnum
     GaussianBlur,
     BloomEffect,
     GolbalFog,
+    EdgeDepthNormal,
+
 }
 
 [ExecuteInEditMode]
@@ -30,6 +32,7 @@ public class RenderImage : MonoBehaviour {
     public GaussianBlur gaussianBlur = new GaussianBlur();
     public BloomEffect bloomEffect = new BloomEffect();
     public GolbalFog golbalFog = new GolbalFog();
+    public EdgeDepthNormal edgeDepthNormal = new EdgeDepthNormal();
 
     public static Camera mainCamera = null;
 
@@ -87,6 +90,9 @@ public class RenderImage : MonoBehaviour {
                 break;
             case EffectEnum.GolbalFog:
                 curEffect = golbalFog;
+                break;
+            case EffectEnum.EdgeDepthNormal:
+                curEffect = edgeDepthNormal;
                 break;
         }
 

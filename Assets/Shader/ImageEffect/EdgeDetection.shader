@@ -86,7 +86,7 @@
 			{
 				half edge = Sobel(i);
 
-				//i.neightor[4]为当前像素颜色
+				//i.neightor[4]为当前像素UV坐标
 				fixed4 withEdgeColor = lerp(_EdgeColor, tex2D(_MainTex, i.neightor[4]), edge);
 				fixed4 onlyEdgeColor = lerp(_EdgeColor, _BackgroundColor, edge);
 				return lerp(withEdgeColor, onlyEdgeColor, _EdgeOnly);
