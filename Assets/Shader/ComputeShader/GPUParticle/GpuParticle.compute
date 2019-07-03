@@ -1,0 +1,25 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+struct Particle
+{
+	float3 position;
+	float3 velocity;
+};
+
+RWStructuredBuffer<Particle> particleBuffer;
+
+float deltaTime;
+float2 mousePosition;
+int isChangeVelocity;
+
+[numthreads(256,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+	float3 delta = float3(mousePosition.xy, 0) - particleBuffer[id.x].position;
+	float3 dir = normalize(delta);
+	float sqlength = delta.x * delta.x + delta.y * delta.y + delta.z * delta.z;
+
+	particleBuffer[id.x].velocity += 0.01f * sqlength * dir * step(0, isChangeVelocity);
+	particleBuffer[id.x].position += particleBuffer[id.x].velocity * deltaTime;
+}

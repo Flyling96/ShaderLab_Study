@@ -1039,7 +1039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3856d671b3dd66841a505eb767725083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curEffectEnum: 1
+  curEffectEnum: 6
   bscEffect:
     brightness: 1.03
     saturation: 1.7
@@ -1766,6 +1766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 987445273}
+  uiCamera: {fileID: 1840381134}
 --- !u!81 &1840381133
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1799,7 +1800,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: 100
   m_CullingMask:
