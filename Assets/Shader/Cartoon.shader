@@ -116,8 +116,8 @@
 				o.normalUV = TRANSFORM_TEX(v.uv, _NormalMap);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
-				o.worldNormal = UnityObjectToWorldNormal(v.normal);
-				o.worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
+				o.worldNormal = mul((float3x3)unity_ObjectToWorld, v.normal);// UnityObjectToWorldNormal(v.normal);
+				o.worldTangent = mul((float3x3)unity_ObjectToWorld, v.tangent.xyz); //UnityObjectToWorldDir(v.tangent.xyz);
 				o.worldBinormal = cross(o.worldNormal, o.worldTangent) * v.tangent.w;
 				return o;
 			}
@@ -133,6 +133,7 @@
 				normal.xy *= _BumpScale;
 
 				normal = normalize(mul(normal,TBN));
+				//return float4(normal, 1);
 
 				fixed diff =  dot(normal, lightDir);
 				fixed4 shadowColor;
