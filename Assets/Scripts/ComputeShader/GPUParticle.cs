@@ -71,7 +71,7 @@ public class GPUParticle : MonoBehaviour
     {
         GPUParticleMat.SetPass(0);
 
-        Graphics.DrawProcedural(MeshTopology.Points, 1, particleCount);
+        Graphics.DrawProceduralNow(MeshTopology.Points, 1, particleCount);
     }
 
     void OnDestroy()
