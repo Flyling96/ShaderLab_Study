@@ -9,7 +9,7 @@
 		_BumpScale("Bump Scale", Float) = 1
 
 		[NoScaleOffset] _ParallaxMap("Parallax", 2D) = "black" {}
-		_ParallaxStrength("Parallax Strength", Range(0, 0.1)) = 0
+		_ParallaxStrength("Parallax Strength", Range(0, 0.5)) = 0
 
 		_DetailTex("Detail Albedo", 2D) = "gray" {}
 
@@ -95,7 +95,7 @@
 				float height = tex2D(_ParallaxMap, uv).g;
 				height = height * 2 - 1;
 				height *= _ParallaxStrength;
-				float2 uvOffset = viewDir.xy * height;
+				float2 uvOffset = viewDir * height;
 				return uvOffset;
 			}
 
@@ -110,8 +110,27 @@
 				float height = tex2D(_ParallaxMap, uv).g;
 
 				for (int i = 0; i < 10 && stepHeight > height; i++) {
+
 					uvOffset -= uvDelta;
 					stepHeight -= stepSize;
+					height = tex2D(_ParallaxMap, uv + uvOffset).g;
+
+				}
+
+				//二分法逼近正确的交点
+				for (int i = 0; i < 10; i++) {
+
+					uvDelta *= 0.5;
+					stepSize *= 0.5;
+
+					if (stepHeight < height) {
+						uvOffset += uvDelta;
+						stepHeight += stepSize;
+					}
+					else {
+						uvOffset -= uvDelta;
+						stepHeight -= stepSize;
+					}
 					height = tex2D(_ParallaxMap, uv + uvOffset).g;
 				}
 
@@ -137,7 +156,7 @@
 				(
 					i.worldTangent,
 					i.worldBinormal,
-					i.worldTangent
+					i.worldNormal
 				);
 
 
