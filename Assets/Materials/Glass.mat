@@ -71,21 +71,21 @@ Material:
     - _BumpScale: 0.7
     - _ChagePower: 0
     - _ChangePower: 0.04
-    - _ChangeSpeed: 1.38
+    - _ChangeSpeed: 1.52
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _Distortion: 100
     - _DstBlend: 0
-    - _Gloss: 155
+    - _Gloss: 138.6
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LightRange: 0.228
+    - _LightRange: 0.187
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RefractAmount: 0.448
+    - _RefractAmount: 0.612
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

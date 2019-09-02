@@ -70,7 +70,7 @@
                 o.uv.xy = TRANSFORM_TEX(v.uv, _MainTex);
 				o.uv.zw = TRANSFORM_TEX(v.uv, _DetailTex);
 
-				o.worldNormal = UnityObjectToWorldDir(v.normal);
+				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
 
 				o.worldBinormal = cross(o.worldNormal, o.worldTangent) * v.tangent.w;

@@ -94,9 +94,9 @@
 			#pragma vertex vert
 			#pragma fragment frag
 			//保证使用光照衰减等光照变量可以被正常赋值
-			//#pragma multi_compile_fwdadd
+			#pragma multi_compile_fwdadd
 			//阴影
-			#pragma multi_compile_fwdadd_fullshadows
+			//#pragma multi_compile_fwdadd_fullshadows
 				
 			#include "Lighting.cginc"
 			#include "AutoLight.cginc"
