@@ -6,6 +6,10 @@ float4 _Tint;
 sampler2D _MainTex;
 float4 _MainTex_ST;
 
+sampler2D _ShadowDepthTex;
+float4x4 _ShadowCameraView;
+float4x4 _ShadowCameraProj;
+
 float _Metallic;
 float _Smoothness;
 
@@ -23,6 +27,7 @@ struct v2f
 	float2 uv : TEXCOORD0;
 	float3 normal : TEXCOORD1;
 	float3 worldPos : TEXCOORD2;
+	//float3 shadowProjPos:TEXCOORD3;
 };
 
 UnityIndirect CreateIndirectLight(v2f i) {
@@ -62,11 +67,21 @@ v2f vert(a2v v) {
 	i.worldPos = mul(unity_ObjectToWorld, v.vertex);
 	i.normal = UnityObjectToWorldNormal(v.normal);
 	i.uv = TRANSFORM_TEX(v.uv, _MainTex);
+
+
 	//ComputeVertexLightColor(i);
 	return i;
 }
 
+half DecodeDepth(half2 depth)
+{
+	half2 decodeMul = half2(1.0, 1/255.0);
+	return dot(depth, decodeMul);
+}
+
 float4 frag(v2f i) : SV_TARGET{
+	//return float4(i.shadowProjPos,1);
+
 	i.normal = normalize(i.normal);
 
 	float3 viewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
@@ -79,10 +94,27 @@ float4 frag(v2f i) : SV_TARGET{
 		albedo, _Metallic, specularTint, oneMinusReflectivity
 	);
 
+	//shadow
+
+	float4 shadowProjPos = mul(_ShadowCameraProj, mul(_ShadowCameraView, float4(i.worldPos,1)));
+	shadowProjPos /= shadowProjPos.w;
+	shadowProjPos = shadowProjPos *0.5f + 0.5f;
+	//return float4(shadowProjPos.xyz, 1);
+	
+	//return 1 - shadowProjPos.z;
+	half shadowDepth = DecodeDepth(tex2D(_ShadowDepthTex, shadowProjPos.xy).xy);
+	//return shadowDepth ;
+
+	//half shadowDepth = tex2D(_ShadowDepthTex, shadowProjPos.xy).x;
+	//return shadowDepth;
+
+	half shadow =  step(shadowDepth,1 - shadowProjPos.z + 0.001);
+	//return shadow;
+
 	return UNITY_BRDF_PBS(
 		albedo, specularTint,
 		oneMinusReflectivity, _Smoothness,
 		i.normal, viewDir,
 		CreateLight(i), CreateIndirectLight(i)
-	);
+	) * shadow;
 }

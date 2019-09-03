@@ -6,10 +6,13 @@
 		_MainTex("Albedo", 2D) = "white" {}
 		[Gamma] _Metallic("Metallic", Range(0, 1)) = 0
 		_Smoothness("Smoothness", Range(0, 1)) = 0.1
+		_ShadowDepthTex("Shadow Depth Tex",2D) = "white" {}
 
     }
     SubShader
     {
+	  Tags { "RenderType" = "Opaque" }
+
 	  Pass {
 			Tags {
 				"LightMode" = "ForwardBase"
