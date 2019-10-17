@@ -44,6 +44,7 @@
 			
 			struct v2f {
 			    float4 pos : SV_POSITION;
+				float3 normal : TEXCOORD0;
 			};
 			
 			v2f vert (a2v v) {
@@ -52,6 +53,7 @@
 				float4 pos = mul(UNITY_MATRIX_MV, v.vertex); 
 				float3 normal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);  
 				normal.z = -0.5;
+				o.normal = normal;
 				pos = pos + float4(normalize(normal), 0) * _Outline;
 				o.pos = mul(UNITY_MATRIX_P, pos);
 				
@@ -59,6 +61,7 @@
 			}
 			
 			float4 frag(v2f i) : SV_Target { 
+				return float4(i.normal,1);
 				return float4(_OutlineColor.rgb, 1);               
 			}
 			
@@ -124,6 +127,7 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
+				return 1;
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
 				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
 

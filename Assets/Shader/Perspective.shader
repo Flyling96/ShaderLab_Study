@@ -75,8 +75,8 @@ Shader "Unlit/Perspective"
 				{
 					float3 normal = normalize(i.normal);
 					float3 viewDir = normalize(i.viewDir);
-					float rim = 1 - dot(normal, viewDir);
-					return _XRayColor;
+					float rim = dot(normal, viewDir);
+					return _XRayColor * rim;
 				}
 				#pragma vertex vert
 				#pragma fragment frag
