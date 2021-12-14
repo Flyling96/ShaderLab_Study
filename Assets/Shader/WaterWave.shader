@@ -77,6 +77,9 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
+				float4 pos = mul(UNITY_MATRIX_VP,i.worldPos);
+				//pos = pos / pos.w;
+				return  mul((float3x3)UNITY_MATRIX_V, i.worldPos).z;
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
 				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
 

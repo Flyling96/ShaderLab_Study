@@ -58,7 +58,8 @@
 			{
 				float4 shadowProjPos = mul(_ShadowCameraProj,mul(_ShadowCameraView,i.worldPos));
 				shadowProjPos /= shadowProjPos.w;
-				shadowProjPos = shadowProjPos * 0.5f + 0.5f;
+				//shadowProjPos = shadowProjPos * 0.5f + 0.5f;
+				//return shadowProjPos.z;
 
 				//shadowProjPos / = shadowProjPos.w;
 				half2 res = EncodeDepth(i.vertex.z);

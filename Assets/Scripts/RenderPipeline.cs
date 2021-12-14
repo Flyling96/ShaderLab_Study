@@ -49,7 +49,7 @@ public class RenderPipeline : MonoBehaviour
         Matrix4x4 shadowView = Matrix4x4.identity;
         ViewMatrix(shadowCamera, ref shadowView);
 
-        Matrix4x4 shadowProj = GL.GetGPUProjectionMatrix(shadowCamera.projectionMatrix, true);
+        Matrix4x4 shadowProj = GL.GetGPUProjectionMatrix(shadowCamera.projectionMatrix, false);
 
         //Shader.SetGlobalMatrix(Shader.PropertyToID("_ShadowCameraView"), shadowView);
         //Shader.SetGlobalMatrix(Shader.PropertyToID("_ShadowCameraProj"), shadowProj);

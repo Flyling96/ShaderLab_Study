@@ -71,9 +71,9 @@
 				o.uv.zw = TRANSFORM_TEX(v.uv, _DetailTex);
 
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
-				o.worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
+				o.worldTangent = normalize(UnityObjectToWorldDir(v.tangent.xyz));
 
-				o.worldBinormal = cross(o.worldNormal, o.worldTangent) * v.tangent.w;
+				o.worldBinormal = normalize(cross(o.worldNormal, o.worldTangent) * v.tangent.w);
 				float3x3 WorldTBN = float3x3
 				(
 					o.worldTangent,
@@ -81,7 +81,7 @@
 					o.worldNormal
 				);
 
-				o.tangentViewDir = mul(WorldTBN, WorldSpaceViewDir(v.vertex));
+				o.tangentViewDir = mul(WorldTBN, WorldSpaceViewDir(mul(unity_ObjectToWorld,v.vertex)));
 
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
@@ -93,7 +93,7 @@
 			float2 ParallaxOffset(float2 uv, float2 viewDir) 
 			{
 				float height = tex2D(_ParallaxMap, uv).g;
-				height = height * 2 - 1;
+				//height = height * 2 - 1;
 				height *= _ParallaxStrength;
 				float2 uvOffset = viewDir * height;
 				return uvOffset;
@@ -117,7 +117,7 @@
 
 				}
 
-				//二分法逼近正确的交点
+				////二分法逼近正确的交点
 				for (int i = 0; i < 10; i++) {
 
 					uvDelta *= 0.5;
@@ -139,18 +139,16 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-				//return float4(i.tangentViewDir.xyz,1);
+				//return i.tangentViewDir.xyzz;
 
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
 				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
 
 				//视差处理
-				i.tangentViewDir = normalize(i.tangentViewDir);
-				i.tangentViewDir.xy /= i.tangentViewDir.z + 0.42f;
-				float2 uvOffset = ParallaxRaymarching(i.uv.xy, i.tangentViewDir);
-				i.uv.xy += uvOffset;
-				i.uv.zw += uvOffset * (_DetailTex_ST.xy / _MainTex_ST.xy);
-
+				//i.tangentViewDir = normalize(i.tangentViewDir);
+				//return i.tangentViewDir.xyzz;
+				//i.tangentViewDir.xy /= i.tangentViewDir.z + 0.42f;
+				//return i.tangentViewDir.xyzz;
 
 				float3x3 WorldTBN = float3x3
 				(
@@ -158,11 +156,20 @@
 					i.worldBinormal,
 					i.worldNormal
 				);
+				//视差处理
+				float3 tangentViewDir = mul(WorldTBN, viewDir);
+				//return tangentViewDir.xyzz;
+				float2 uvOffset = ParallaxRaymarching(i.uv.xy, tangentViewDir);
+				i.uv.xy += uvOffset;
+				i.uv.zw += uvOffset * (_DetailTex_ST.xy / _MainTex_ST.xy);
 
 
 				float3 normal = UnpackNormal(tex2D(_NormalMap, i.uv.xy));
+
 				normal.xy *= _BumpScale;
 				normal = normalize(mul(normal, WorldTBN));
+
+				//return normal.xyzz;
                 
 				fixed3 albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb * tex2D(_DetailTex, i.uv.zw).rgb;
 
