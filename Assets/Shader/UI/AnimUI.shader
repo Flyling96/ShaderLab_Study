@@ -101,17 +101,25 @@ Shader "UI/AnimUI"
                     return OUT;
                 }
 
+
                 fixed4 frag(v2f IN) : SV_Target
                 {
                     fixed4 color = tex2D(_MainTex, IN.texcoord);
                     fixed mask = color.b;
-                    color.b = 2 - color.r - color.g;
-                    color.r = color.r / (1 - color.b * 0.5f);
-                    color.g = color.g / (1 - color.b * 0.5f);
- 
+                    float decodeValue = (color.r + color.g / 255.0f) * 65535.0f;
+                    color.r = fmod(decodeValue , 32.0f) / 31.0f;
+                    color.g = fmod(decodeValue - color.r * 31.0f, 1024.0f) / 1023.0f;
+                    color.b = fmod(decodeValue - color.g * 1023.0f - color.r * 31.0f, 65536.0f) / 65535.0f;
+                    
+                    //color.b = color.g;
+                    //fixed decodeValue = color.r * 255.0f;
+                    //color.r = fmod(decodeValue, 16.0f) / 15.0f;
+                    //color.g = fmod(decodeValue - color * 15.0f, 256.0f) / 255.0f;
+
                     color.a = color.a * step(mask, _MaskPro);
                     //color.a = step(color.a, _MaskPro) * step(color.r * color.g * color.b, 0.98f);
 
+                    //return decodeValue * 10;
                     return  color;
                 }
             ENDCG
