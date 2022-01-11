@@ -53,15 +53,12 @@
                 fixed4 mask = tex2D(_Mask, uv);
 
                 fixed4 res;
-                fixed r = source.r * 31.0f;
-                fixed g = source.g * 1023.0f;
-                g = floor(g / 32.0f) * 32.0f;
-                fixed b = source.b * 65535.0f;
-                b = floor(b / 1024.0f) * 1024.0f;
+                fixed r = source.r * 31.0f ;
+                fixed g = floor(source.g * 31.0f) * 32.0f;
+                fixed b = floor(source.b * 31.0f) * 1024.0f;
                 fixed value = (r + g + b);
-                res.g = fmod(value, 256.0f)/255.0f;
-                value = value - res.g * 255.0f;
-                res.r = value / 65535.0f;
+                res.g = clamp(floor(fmod(value, 256.0f))/255.0f,0.0f,1.0f);
+                res.r = floor(value / 256.0f) / 255.0f;
                 //fixed4 res;
                 //fixed r = source.r * 15.0f;
                 //fixed g = source.g * 255.0f;

@@ -106,10 +106,10 @@ Shader "UI/AnimUI"
                 {
                     fixed4 color = tex2D(_MainTex, IN.texcoord);
                     fixed mask = color.b;
-                    float decodeValue = (color.r + color.g / 255.0f) * 65535.0f;
-                    color.r = fmod(decodeValue , 32.0f) / 31.0f;
-                    color.g = fmod(decodeValue - color.r * 31.0f, 1024.0f) / 1023.0f;
-                    color.b = fmod(decodeValue - color.g * 1023.0f - color.r * 31.0f, 65536.0f) / 65535.0f;
+                    float decodeValue = color.r * 65280.0f + color.g * 255.0f;// 255.0f * 256.0f
+                    color.r = clamp(fmod(decodeValue , 32.0f) / 31.0f, 0.0f, 1.0f);
+                    color.g = clamp((fmod(decodeValue, 1024.0f) - color.r * 31.0f) / 992.0f, 0.0f,1.0f);
+                    color.b = (decodeValue - color.g * 992.0f - color.r * 31.0f) / 31744.0f;
                     
                     //color.b = color.g;
                     //fixed decodeValue = color.r * 255.0f;
@@ -120,7 +120,7 @@ Shader "UI/AnimUI"
                     //color.a = step(color.a, _MaskPro) * step(color.r * color.g * color.b, 0.98f);
 
                     //return decodeValue * 10;
-                    return  color;
+                    return  color ;
                 }
             ENDCG
             }

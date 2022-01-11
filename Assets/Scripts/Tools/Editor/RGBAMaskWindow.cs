@@ -98,11 +98,19 @@ public class RGBAMaskWindow : EditorWindow
                 Texture2D.DestroyImmediate(png);
                 png = null;
                 RenderTexture.active = old;
-                //AssetDatabase.ImportAsset(path);
-
+                AssetDatabase.ImportAsset(path);
+                
                 TextureImporter importer = AssetImporter.GetAtPath(path) as TextureImporter;
                 importer.textureType = TextureImporterType.Sprite;
-                AssetDatabase.ImportAsset(path);
+                importer.isReadable = true;
+                importer.mipmapEnabled = false;
+                importer.wrapMode = TextureWrapMode.Clamp;
+                importer.npotScale = TextureImporterNPOTScale.None;
+                TextureImporterPlatformSettings texSetting = importer.GetDefaultPlatformTextureSettings();
+                texSetting.format = TextureImporterFormat.RGBA32;
+                texSetting.resizeAlgorithm = TextureResizeAlgorithm.Mitchell;
+                importer.SetPlatformTextureSettings(texSetting);
+                importer.SaveAndReimport();
             }
         }
 
