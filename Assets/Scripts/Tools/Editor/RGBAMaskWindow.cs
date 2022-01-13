@@ -106,6 +106,8 @@ public class RGBAMaskWindow : EditorWindow
                 importer.mipmapEnabled = false;
                 importer.wrapMode = TextureWrapMode.Clamp;
                 importer.npotScale = TextureImporterNPOTScale.None;
+                //必须为点滤波，其他滤波插值会导致解析出来的数值不对
+                importer.filterMode = FilterMode.Point;
                 TextureImporterPlatformSettings texSetting = importer.GetDefaultPlatformTextureSettings();
                 texSetting.format = TextureImporterFormat.RGBA32;
                 texSetting.resizeAlgorithm = TextureResizeAlgorithm.Mitchell;
